@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" />
+
+    <!-- https://openlayers.org/en/latest/doc/quickstart.html -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.2.1/build/ol.js"></script>
+
+    <title>Wander</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+        
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body id="map">
+
+    <script type="text/javascript">
+        const layers = [new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png',
+                opaque: false,
+            })
+        })];
+        const view = new ol.View({
+            center: ol.proj.fromLonLat([5.38720, 52.15517]),
+            zoom: 10,
+            maxZoom: 17, // opentopomap
+        });
+        const map = new ol.Map({
+            layers: layers,
+            target: 'map',
+            view: view
+        });
+    </script>
+
+</body>
+
+</html>
