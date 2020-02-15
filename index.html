@@ -38,13 +38,14 @@
         };
 
         (() => {
-            const ACCESS_TOKEN = 'mapbox';
             const url = new URL(location);
             const searchParams = url.searchParams;
-            if (searchParams.has(ACCESS_TOKEN)) {
-                AccessToken.set(searchParams.get(ACCESS_TOKEN));
-                // searchParams.delete(ACCESS_TOKEN);
-                // location.replace(url.href);
+            if (searchParams.has('mapbox')) {
+                AccessToken.set(searchParams.get('mapbox'));
+                searchParams.delete('mapbox');
+                location.replace(url.href);
+            } else if (!AccessToken.get()) {
+                AccessToken.set(prompt('Mapbox access token:'));
             }
         })();
 
