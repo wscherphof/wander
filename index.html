@@ -53,13 +53,13 @@
                 url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=' + AccessToken.get(),
                 maxZoom: 21,
             }),
-            opacity: .7,
+            opacity: .65,
         }), new ol.layer.Tile({
             source: new ol.source.XYZ({
                 url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png',
                 maxZoom: 17,
             }),
-            opacity: .5,
+            opacity: .50,
         })];
         const view = new ol.View({
             center: ol.proj.fromLonLat([-0.00149, 51.47799]),
