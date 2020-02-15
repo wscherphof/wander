@@ -49,31 +49,44 @@
             }
         })();
 
-        const layers = [new ol.layer.Tile({
+        const mapboxLayer = new ol.layer.Tile({
             source: new ol.source.XYZ({
                 url: 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=' + AccessToken.get(),
                 maxZoom: 21,
             }),
-            opacity: .5,
-        }), new ol.layer.Tile({
+        });
+
+        const openTopoLayer = new ol.layer.Tile({
             source: new ol.source.XYZ({
                 url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png',
                 maxZoom: 17,
             }),
-            opacity: .5,
-        })];
+        });
+
         const view = new ol.View({
             center: ol.proj.fromLonLat([-0.00149, 51.47799]),
             zoom: 3,
             enableRotation: false,
             // constrainResolution: true,
         });
+
         const map = new ol.Map({
-            layers: layers,
+            layers: [mapboxLayer, openTopoLayer],
             target: 'map',
             view: view,
             controls: [],
         });
+
+        const MIN_ZOOM = 15;
+        mapboxLayer.setMinZoom(MIN_ZOOM);
+        map.on('moveend', () => {
+            if (view.getZoom() > MIN_ZOOM) {
+                openTopoLayer.setOpacity(.7);
+            } else {
+                openTopoLayer.setOpacity(1);
+            }
+        });
+
         const geolocation = new ol.Geolocation({
             projection: view.getProjection()
         });
