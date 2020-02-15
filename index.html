@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" />
 
     <!-- https://openlayers.org/en/latest/doc/quickstart.html -->
@@ -42,8 +43,8 @@
             const searchParams = url.searchParams;
             if (searchParams.has(ACCESS_TOKEN)) {
                 AccessToken.set(searchParams.get(ACCESS_TOKEN));
-                searchParams.delete(ACCESS_TOKEN);
-                location.replace(url.href);
+                // searchParams.delete(ACCESS_TOKEN);
+                // location.replace(url.href);
             }
         })();
 
