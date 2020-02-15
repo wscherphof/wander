@@ -78,9 +78,13 @@
         });
 
         const MIN_ZOOM = 15;
+        const MAX_ZOOM = 17;
         mapboxLayer.setMinZoom(MIN_ZOOM);
         map.on('moveend', () => {
-            if (view.getZoom() > MIN_ZOOM) {
+            const zoom = view.getZoom();
+            if (zoom > MAX_ZOOM) {
+                openTopoLayer.setOpacity(.3);
+            } else if (zoom > MIN_ZOOM) {
                 openTopoLayer.setOpacity(.7);
             } else {
                 openTopoLayer.setOpacity(1);
