@@ -112,13 +112,6 @@
             projection: view.getProjection(),
         });
 
-        geolocation.setTracking(true);
-
-        geolocation.once('change:position', () => {
-            view.setCenter(geolocation.getPosition());
-            view.setZoom(13);
-        });
-
         geolocation.on('change:position', () => {
             const coordinates = geolocation.getPosition();
             positionFeature.setGeometry(coordinates ?
@@ -128,7 +121,39 @@
         geolocation.on('change:accuracyGeometry', function() {
             accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
         });
+
+        function position() {
+            if (!geolocation.getTracking()) {
+                geolocation.setTracking(true);
+                geolocation.once('change:position', () => {
+                    position();
+                });
+            } else {
+                view.setCenter(geolocation.getPosition());
+                view.setZoom(13);
+            }
+        }
+
+        position();
     </script>
+
+    <style>
+        .material-icons.button {
+            color: #3399CC;
+            margin: 1rem;
+            padding: .5rem;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, .9);
+            user-select: none;
+            cursor: pointer;
+        }
+    </style>
+
+    <div style="position: absolute; right: 0; bottom: 0;">
+        <i class="material-icons button" onclick="position()">
+            near_me
+        </i>
+    </div>
 
 </body>
 
