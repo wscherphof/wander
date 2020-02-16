@@ -89,9 +89,7 @@
             layers: [mapboxLayer, openTopoLayer, positionLayer],
             target: 'map',
             view: view,
-            controls: [new ol.control.Attribution({
-                collapsible: false,
-            })],
+            controls: [new ol.control.Attribution()],
         });
 
         const MIN_ZOOM = 15;
@@ -157,8 +155,6 @@
             near_me
         </i>
     </div>
-
-    <!-- https://opentopomap.org/about#legende -->
 
 </body>
 
