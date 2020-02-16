@@ -52,6 +52,7 @@
             source: new ol.source.XYZ({
                 url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png',
                 maxZoom: 17,
+                attributions: ['Kartendaten: © <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: © <a href="http://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'],
             }),
         });
 
@@ -88,7 +89,9 @@
             layers: [mapboxLayer, openTopoLayer, positionLayer],
             target: 'map',
             view: view,
-            controls: [],
+            controls: [new ol.control.Attribution({
+                collapsible: false,
+            })],
         });
 
         const MIN_ZOOM = 15;
@@ -149,11 +152,13 @@
         }
     </style>
 
-    <div style="position: absolute; right: 0; bottom: 0;">
+    <div style="position: absolute; right: 0; top: 0;">
         <i class="material-icons button" onclick="position()">
             near_me
         </i>
     </div>
+
+    <!-- https://opentopomap.org/about#legende -->
 
 </body>
 
