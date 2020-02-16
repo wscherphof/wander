@@ -3,6 +3,8 @@ Wander is a global hiking map, featuring [Opentopomap](https://opentopomap.org/a
 with all the [OSM](https://www.openstreetmap.org) footpaths,
 on top of [Mapbox satellite](https://www.mapbox.com/maps/satellite/) images for detailed context.
 
+![Screenshot](screenshot.png)
+
 Follow these steps to get started:
 
 1. Create an account with [Mapbox](https://www.mapbox.com/). You get [200,000](https://www.mapbox.com/pricing/#gltile) satellite map tiles for free each month.
