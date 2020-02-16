@@ -37,17 +37,9 @@
             set: (value) => value ? localStorage.setItem(ACCESS_TOKEN, value) : localStorage.removeItem(ACCESS_TOKEN),
         };
 
-        (() => {
-            const url = new URL(location);
-            const searchParams = url.searchParams;
-            if (searchParams.has('mapbox')) {
-                AccessToken.set(searchParams.get('mapbox'));
-                searchParams.delete('mapbox');
-                location.replace(url.href);
-            } else if (!AccessToken.get()) {
-                AccessToken.set(prompt('Mapbox access token:'));
-            }
-        })();
+        if (!AccessToken.get()) {
+            AccessToken.set(prompt('Mapbox access token:'));
+        }
 
         const mapboxLayer = new ol.layer.Tile({
             source: new ol.source.XYZ({
@@ -63,6 +55,28 @@
             }),
         });
 
+        var positionFeature = new ol.Feature();
+        positionFeature.setStyle(new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 6,
+                fill: new ol.style.Fill({
+                    color: '#3399CC',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#fff',
+                    width: 2,
+                }),
+            })
+        }));
+
+        const accuracyFeature = new ol.Feature();
+
+        const positionLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: [accuracyFeature, positionFeature],
+            })
+        });
+
         const view = new ol.View({
             center: ol.proj.fromLonLat([-0.00149, 51.47799]),
             zoom: 3,
@@ -71,7 +85,7 @@
         });
 
         const map = new ol.Map({
-            layers: [mapboxLayer, openTopoLayer],
+            layers: [mapboxLayer, openTopoLayer, positionLayer],
             target: 'map',
             view: view,
             controls: [],
@@ -92,13 +106,27 @@
         });
 
         const geolocation = new ol.Geolocation({
-            projection: view.getProjection()
+            trackingOptions: {
+                enableHighAccuracy: true,
+            },
+            projection: view.getProjection(),
         });
+
         geolocation.setTracking(true);
-        geolocation.once('change', () => {
-            geolocation.setTracking(false);
+
+        geolocation.once('change:position', () => {
             view.setCenter(geolocation.getPosition());
             view.setZoom(13);
+        });
+
+        geolocation.on('change:position', () => {
+            const coordinates = geolocation.getPosition();
+            positionFeature.setGeometry(coordinates ?
+                new ol.geom.Point(coordinates) : null);
+        });
+
+        geolocation.on('change:accuracyGeometry', function() {
+            accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
         });
     </script>
 
