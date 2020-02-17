@@ -134,10 +134,6 @@
             accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
         });
 
-        geolocation.once('change:position', () => {
-            position();
-        });
-
         function position() {
             const coordinates = geolocation.getPosition();
             if (coordinates) {
@@ -146,7 +142,9 @@
             }
         }
 
-        position();
+        geolocation.once('change:position', () => {
+            position();
+        });
     </script>
 
     <style>
