@@ -117,6 +117,7 @@
         });
 
         const geolocation = new ol.Geolocation({
+            tracking: true,
             trackingOptions: {
                 enableHighAccuracy: true,
             },
@@ -133,14 +134,14 @@
             accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
         });
 
+        geolocation.once('change:position', () => {
+            position();
+        });
+
         function position() {
-            if (!geolocation.getTracking()) {
-                geolocation.setTracking(true);
-                geolocation.once('change:position', () => {
-                    position();
-                });
-            } else {
-                view.setCenter(geolocation.getPosition());
+            const coordinates = geolocation.getPosition();
+            if (coordinates) {
+                view.setCenter(coordinates);
                 view.setZoom(13);
             }
         }
