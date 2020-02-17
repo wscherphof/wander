@@ -64,28 +64,6 @@
             }),
         });
 
-        var positionFeature = new ol.Feature();
-        positionFeature.setStyle(new ol.style.Style({
-            image: new ol.style.Circle({
-                radius: 6,
-                fill: new ol.style.Fill({
-                    color: '#3399CC',
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#fff',
-                    width: 2,
-                }),
-            })
-        }));
-
-        const accuracyFeature = new ol.Feature();
-
-        const positionLayer = new ol.layer.Vector({
-            source: new ol.source.Vector({
-                features: [accuracyFeature, positionFeature],
-            })
-        });
-
         const view = new ol.View({
             center: ol.proj.fromLonLat([-0.00149, 51.47799]),
             zoom: 3,
@@ -94,7 +72,7 @@
         });
 
         const map = new ol.Map({
-            layers: [mapboxLayer, openTopoLayer, positionLayer],
+            layers: [mapboxLayer, openTopoLayer],
             target: 'map',
             view: view,
             controls: [new ol.control.Attribution({
@@ -122,6 +100,29 @@
                 enableHighAccuracy: true,
             },
             projection: view.getProjection(),
+        });
+
+        const positionFeature = new ol.Feature();
+        positionFeature.setStyle(new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: 6,
+                fill: new ol.style.Fill({
+                    color: '#3399CC',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#fff',
+                    width: 2,
+                }),
+            })
+        }));
+
+        const accuracyFeature = new ol.Feature();
+
+        new ol.layer.Vector({
+            map: map,
+            source: new ol.source.Vector({
+                features: [accuracyFeature, positionFeature],
+            })
         });
 
         geolocation.on('change:position', () => {
