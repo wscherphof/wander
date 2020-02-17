@@ -26,6 +26,11 @@
         
         body {
             margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .ol-attribution {
+            font-size: small;
         }
     </style>
 </head>
@@ -55,7 +60,7 @@
             source: new ol.source.XYZ({
                 url: 'https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png',
                 maxZoom: 17,
-                attributions: ['Kartendaten: © <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>-Mitwirkende, SRTM | Kartendarstellung: © <a href="http://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'],
+                attributions: ['map data: © <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | map style: © <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'],
             }),
         });
 
@@ -92,7 +97,9 @@
             layers: [mapboxLayer, openTopoLayer, positionLayer],
             target: 'map',
             view: view,
-            controls: [new ol.control.Attribution()],
+            controls: [new ol.control.Attribution({
+                collapsible: false,
+            })],
         });
 
         const MIN_ZOOM = 15;
@@ -142,7 +149,7 @@
     </script>
 
     <style>
-        .material-icons.button {
+        .material-icons.icon-button {
             color: #3399CC;
             margin: 1rem;
             padding: .5rem;
@@ -154,7 +161,7 @@
     </style>
 
     <div style="position: absolute; right: 0; top: 0;">
-        <i class="material-icons button" onclick="position()">
+        <i class="material-icons icon-button" onclick="position()">
             near_me
         </i>
     </div>
